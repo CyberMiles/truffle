@@ -33,8 +33,11 @@ var compile = function(sources, options, callback) {
 
   expect.options(options, [
     "contracts_directory",
+    "compilers",
     "solc"
   ]);
+
+  expect.options(options.compilers, ["solc"]);
 
   // Load solc module only when compilation is actually required.
   var solc = require("solc");
@@ -92,6 +95,11 @@ var compile = function(sources, options, callback) {
       }
     }
   };
+
+  // Setup contract standard from config if existed.
+  if (options.compilers.solc.hasOwnProperty("settings") && options.compilers.solc.settings.hasOwnProperty("contractStandard")) {
+    solcStandardInput.settings.contractStandard = options.compilers.solc.settings.contractStandard;
+  }
 
   // Nothing to compile? Bail.
   if (Object.keys(sources).length == 0) {

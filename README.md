@@ -48,3 +48,38 @@ and deploy it on testnet:
 ```
 $ truffle deploy --network testnet
 ```
+
+### ERC Contract Checker
+
+You can leverage [ERC contract chcker](https://lity.readthedocs.io/en/latest/erc-contract-checker-guide.html) from Lity.
+Just add compiler options in your `truffle-config.js`:
+
+```
+compilers: {
+  solc: {
+    settings: {
+      contractStandard: "ERC20"
+    }
+  }
+}
+```
+
+and it will shows contract compatibility when compiling:
+
+```
+$ truffle compile
+
+Compiling ./contracts/BTCRelay.sol...
+Compiling ./contracts/Migrations.sol...
+
+Compilation warnings encountered:
+
+/truffle_project/contracts/BTCRelay.sol:3:1: Info: Missing 'totalSupply' with type signature 'function () view external returns (uint256)'. BTCRelay is not compatible to ERC20.
+contract BTCRelay {
+^ (Relevant source part starts here and spans across multiple lines).
+,/truffle_project/contracts/Migrations.sol:3:1: Info: Missing 'totalSupply' with type signature 'function () view external returns (uint256)'. Migrations is not compatible to ERC20.
+contract Migrations {
+^ (Relevant source part starts here and spans across multiple lines).
+
+Writing artifacts to ./build/contracts
+```
